@@ -4,14 +4,98 @@ import { bluetooth } from 'ionicons/icons';
 import { useState } from 'react';
 import '../theme/App.css'
 
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from 'firebase/database'
+
+
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCpQoMMzOGkJ-n3H0A5nRYGeto7ubNkKF8",
+  authDomain: "backend-e12d1.firebaseapp.com",
+  databaseURL: "https://backend-e12d1-default-rtdb.firebaseio.com",
+  projectId: "backend-e12d1",
+  storageBucket: "backend-e12d1.appspot.com",
+  messagingSenderId: "730317868996",
+  appId: "1:730317868996:web:68359d31c1ab5a9a369e91",
+  measurementId: "G-158MT6TRS3"
+};
+
+
+
+
+
 const Tab2: React.FC = () => {
+
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  const writeUserData = () => {
+    console.log(database);
+    set(ref(database, 'users/bluetoothDevices'), {
+      devicesNameList: devices
+    })
+  }
+
+  const writeUserDataUUID = () => {
+    console.log(database);
+    set(ref(database, 'users/bluetoothDevicesUUIDS'), {
+      devicesUUIDList: devicesUUID,
+    })
+
+
+    console.log('here are the devicesUUID we get:', devicesUUID);
+  }
+
   const [isScanning, setIsScanning] = useState<boolean>(false);
+  const [isScanningUUID, setIsScanningUUID] = useState<boolean>(false);
   const [devices, setDevices] = useState<string[]>([]);
+  const [devicesUUID, setDevicesUUID] = useState<string[]>([]);
 
   const handleInitialize = async () => {
     await BleClient.initialize();
     console.log('Bluetooth initialized');
   };
+
+  const handleClickUUID = async () => {
+    setIsScanningUUID(!isScanningUUID);
+    if (!isScanningUUID) {
+      await BleClient.requestLEScan({}, scanResult => {
+        console.log('Found device:', scanResult);
+        if (scanResult.device !== undefined && scanResult.device.uuids !== undefined) {
+          const uuids = scanResult.device.uuids.map(uuid => uuid.toUpperCase()); // convert UUIDs to upper case for consistency
+          setDevicesUUID([...devicesUUID, ...uuids]); // add unique UUIDs to the array
+        }
+      });
+      console.log('Scanning started');
+
+    } else {
+      await BleClient.stopLEScan();
+      console.log('Scanning stopped');
+    }
+  };
+
+
+  const handleClickUUID2 = async () => {
+    setIsScanningUUID(!isScanningUUID);
+    if (!isScanningUUID) {
+      await BleClient.requestLEScan({}, scanResult => {
+        console.log('Found device:', scanResult);
+        if (scanResult.device !== undefined && scanResult.device.uuids !== undefined) {
+          setDevicesUUID([...devicesUUID, ...scanResult.device.uuids]);
+        }
+      });
+      console.log('Scanning started');
+
+    } else {
+      await BleClient.stopLEScan();
+      console.log('Scanning stopped');
+    }
+  };
+
 
   const handleClick = async () => {
     setIsScanning(!isScanning);
@@ -41,13 +125,33 @@ const Tab2: React.FC = () => {
         <IonButton className='primary-blue btn-text' onClick={handleClick}>
           <div style={{ color: isScanning ? 'gray' : 'white' }}>
             <IonIcon icon={bluetooth}></IonIcon>
-            {isScanning ? 'Scanning...' : 'Scan for devices'}
+            {isScanning ? 'ScanningName...' : 'Scan for devicesName'}
           </div>
         </IonButton>
+
+        <IonButton className='primary-blue btn-text' onClick={handleClickUUID}>
+          <div style={{ color: isScanningUUID ? 'gray' : 'white' }}>
+            <IonIcon icon={bluetooth}></IonIcon>
+            {isScanningUUID ? 'ScanningUUID...' : 'Scan for devicesUUID'}
+          </div>
+        </IonButton>
+
+        <IonButton className='primary-blue btn-text' onClick={writeUserData}>test WritingUserData</IonButton>
+        <IonButton className='primary-blue btn-text' onClick={writeUserDataUUID}>test WritingUserDataUUID</IonButton>
         {devices.length > 0 && (
           <IonCard>
             <IonList>
               {devices.map((device, index) => (
+                <IonItem key={index}>{device}</IonItem>
+              ))}
+            </IonList>
+          </IonCard>
+        )}
+
+        {(devicesUUID !== undefined) && (
+          <IonCard>
+            <IonList>
+              {devicesUUID.map((device, index) => (
                 <IonItem key={index}>{device}</IonItem>
               ))}
             </IonList>
@@ -60,138 +164,3 @@ const Tab2: React.FC = () => {
 
 export default Tab2;
 
-
-// import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-// import ExploreContainer from '../components/ExploreContainer/ExploreContainer';
-// import './Tab2.css';
-
-// // Import the wrapper class directly
-// import { BleClient } from '@capacitor-community/bluetooth-le';
-// import { bluetooth } from 'ionicons/icons';
-// import { useState } from 'react';
-
-// const Tab2: React.FC = () => {
-
-//   const [isScanning, setIsScanning] = useState<Boolean>(false);
-//   const [devices, setDevides] = useState<string[]>([] as string[]);
-//   const [scanRes, setscanRes] = useState<any[]>([]);
-//   const color = isScanning ? "gray" : "white"
-
-//   const handleInitialize = () => {
-//     console.log('handleInitialize Clicked');
-//     BleClient.initialize();
-
-//     // on mobile devices:::!!!
-//     // BleClient.enable(); 
-//   }
-
-//   const handleClick = () => {
-//     console.log('clicked');
-//     setIsScanning(!isScanning);
-//     scanForDevices();
-//     console.log(isScanning);
-//   }
-
-//   const scanForDevices = () => {
-//     if (typeof BleClient.requestLEScan === 'function') {
-//       BleClient.requestLEScan({}, scanResult => {
-//         console.log('Found device:', scanResult);
-//         if (scanResult.device.name !== undefined) {
-//           setDevides([...devices, scanResult.device.name]);
-//         }
-//       });
-//     } else {
-//       console.log('Bluetooth LE scan is not available on this platform.');
-//     }
-//   };
-
-
-//   const scanForDevices3 = () => {
-//     if (typeof navigator.bluetooth.requestLEScan === 'function') {
-//       BleClient.requestLEScan({}, scanResult => {
-//         console.log('Found device:', scanResult);
-//         if (scanResult.device.name !== undefined) {
-//           setDevides([...devices, scanResult.device.name]);
-//         }
-//       });
-//     } else {
-//       console.log('Not available on web browser!');
-//     }
-//   };
-
-
-//   const scanForDevices2 = () => {
-//     BleClient.requestLEScan({}, scanResult => {
-//       console.log('Found device:', scanResult.device.name);
-//     });
-//   };
-
-//   const scanForUUIDs = () => {
-//     const uuids: Array<string> = []; // Array to store discovered UUIDs
-//     BleClient.requestLEScan({}, scanResult => {
-//       const device = scanResult.device;
-//       if (device.uuids) {
-//         device.uuids.forEach(uuid => {
-//           if (!uuids.includes(uuid)) {
-//             uuids.push(uuid);
-//             console.log(`Discovered UUID: ${uuid}`);
-//           }
-//         });
-//       }
-//     });
-//   };
-
-
-//   return (
-//     <IonPage>
-//       <IonHeader>
-//         <IonToolbar>
-//           <IonTitle>BlueToothScanning</IonTitle>
-//         </IonToolbar>
-//       </IonHeader>
-//       <IonContent fullscreen>
-//         <IonButton onClick={handleInitialize}>Initialize</IonButton>
-//         <IonButton onClick={handleClick}>
-//           <div style={{ color: color }} >
-//             <IonIcon icon={bluetooth}></IonIcon>
-//             Enabled
-//           </div>
-//         </IonButton>
-//         <IonButton onClick={scanForDevices}>Scan for devices</IonButton>
-//         {devices.length ?
-//           <IonCard>
-//             <IonList>
-//               {/* {devices.map(device => {
-//                 return <IonItem>{device}</IonItem>;
-//               })} */}
-//               {devices.map((device, index) => (
-//                 <IonItem key={index}>{device}</IonItem>
-//               ))}
-//             </IonList>
-//           </IonCard> : null}
-//       </IonContent>
-
-
-
-//     </IonPage >
-//   );
-// };
-
-// export default Tab2;
-
-
-
-
-
-
-
-
-
-
-  // const handleClick = () => {
-  //   console.log('enabçled');
-  //   BleClient.initialize();
-  //   console.log(BleClient.isEnabled());
-  //   // BleClient.disable();
-  //   console.log(BleClient.isEnabled());
-  // }
