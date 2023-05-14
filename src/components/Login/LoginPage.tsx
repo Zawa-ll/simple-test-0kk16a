@@ -2,6 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLab
 import React, { useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { alarmSharp } from 'ionicons/icons';
+import '../../theme/App.css'
 
 interface User {
     userName: string;
@@ -38,8 +39,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
     return (
         <>
-            <IonButton id='login-modal' expand="full" color={'medium'} >
-                <p>Login</p>
+            <IonButton className='primary-blue' id='login-modal' expand="full"  >
+                <p className='btn-text'>Login</p>
             </IonButton>
             <IonModal ref={modal} trigger='login-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
                 <IonHeader>

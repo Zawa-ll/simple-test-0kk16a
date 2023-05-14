@@ -95,8 +95,8 @@ const RegisterPage = () => {
 
     return (
         <>
-            <IonButton id='register-modal' expand="full" color={'medium'}>
-                <p>Register</p>
+            <IonButton className='primary-blue' id='register-modal' expand="full">
+                <p className='btn-text'>Register</p>
             </IonButton>
             <IonModal ref={modal} trigger='register-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
                 <IonHeader>

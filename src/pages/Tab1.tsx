@@ -7,7 +7,7 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader >
         <IonToolbar className='border-color heading-title'>
-          <IonTitle>Tab 1</IonTitle>
+          <IonTitle>Main Page</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className='background' fullscreen>
