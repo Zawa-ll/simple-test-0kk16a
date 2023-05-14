@@ -1,26 +1,57 @@
-
-
-
 import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react'
 import React, { useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { alarmSharp } from 'ionicons/icons';
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from 'firebase/database'
+
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyCpQoMMzOGkJ-n3H0A5nRYGeto7ubNkKF8",
+    authDomain: "backend-e12d1.firebaseapp.com",
+    databaseURL: "https://backend-e12d1-default-rtdb.firebaseio.com",
+    projectId: "backend-e12d1",
+    storageBucket: "backend-e12d1.appspot.com",
+    messagingSenderId: "730317868996",
+    appId: "1:730317868996:web:68359d31c1ab5a9a369e91",
+    measurementId: "G-158MT6TRS3"
+};
 
 interface User {
     userName: string,
     password: string,
 }
 
-interface LoginPageProps {
-    onLogin: () => void;
-}
-
 const RegisterPage = () => {
+
+    //firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // const writeUserData = () => {
+    //     console.log(database);
+    //     set(ref(database, 'users/stringTesting'), {
+    //         message: 'testing0',
+    //     });
+    // }
+    const writeUserData = () => {
+        console.log(database);
+        set(ref(database, 'users/newUsers'), {
+            users: users,
+        })
+    }
+
+
     const modal = useRef<HTMLIonModalElement>(null);
     const inputUserName = useRef<HTMLIonInputElement>(null);
     const inputPassword = useRef<HTMLIonInputElement>(null);
     const inputPasswordConfirm = useRef<HTMLIonInputElement>(null);
 
+    const [users, setUsers] = useState<User[]>([]);
     const [user, setUser] = useState<User>({} as User);
     const [errors, setErrors] = useState<string[]>([] as string[]);
 
@@ -46,8 +77,11 @@ const RegisterPage = () => {
             return;
         }
         setUser({ ...user, userName: String(inputUserName.current?.value), password: String(inputPassword.current?.value) });
+        setUsers([...users, user]);
+        writeUserData();
 
         console.log(user);
+        console.log(users);
 
         // Clear inputs
         inputUserName.current!.value = '';
@@ -101,6 +135,7 @@ const RegisterPage = () => {
                                 <IonLabel className='light-body-text' position='floating'>Password Confirm</IonLabel>
                                 <IonInput className='light-body-text' ref={inputPasswordConfirm} type='password' placeholder='confirm password' />
                             </IonItem>
+                            <IonButton onClick={writeUserData}></IonButton>
                         </form>
                         <IonItem className='background'>
                             <p style={{ 'color': 'red' }} >{errors.join('\n')}</p>
