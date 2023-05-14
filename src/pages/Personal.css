@@ -1,0 +1,25 @@
+.round-image {
+    --border-radius: '50%';
+    width: 100px;
+    height: 100px;
+}
+
+
+.circle-pic {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.bg-style {
+    --background: rgb(91, 89, 89);
+
+}
+
+
+/* style= {
+        {
+        height: '100px', width: '100px', borderRadius:'50%'
+    }
+} */
