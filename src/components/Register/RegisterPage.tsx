@@ -99,18 +99,14 @@ const RegisterPage = () => {
                 <p className='btn-text'>Register</p>
             </IonButton>
             <IonModal ref={modal} trigger='register-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
-                <IonHeader>
-                    <IonToolbar className='bar-background'>
+                <IonHeader >
+                    <IonToolbar className='border-color'>
                         <IonButtons slot="start">
-                            <IonButton className='light-body-text ' onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+                            <IonButton className='light-body-text' onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
                         </IonButtons>
-
-                        <IonContent fullscreen className='bar-background'>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                <h1 className='light-body-text '>Register</h1>
-                            </div>
-                        </IonContent>
-
+                        <IonTitle style={{ textAlign: "center" }}>
+                            <h1 className='light-body-text '>Register</h1>
+                        </IonTitle>
                         <IonButtons slot="end">
                             <IonButton className='light-body-text ' onClick={() => handleConfirm()}>Confirm</IonButton>
                         </IonButtons>
@@ -135,11 +131,14 @@ const RegisterPage = () => {
                             {/* <IonButton onClick={writeUserData}></IonButton> */}
                         </form>
                     </IonCard>
-                    <IonCard className='background'>
-                        <IonItem className='background'>
-                            <p style={{ 'color': 'red' }}>{errors.join('\n')}</p>
-                        </IonItem>
-                    </IonCard>
+                    {errors.length ?
+                        <IonCard className='background'>
+                            <IonItem className='background'>
+                                <p style={{ 'color': 'red' }}>{errors.join('\n')}</p>
+                            </IonItem>
+                        </IonCard> : null
+                    }
+
                 </IonContent>
             </IonModal>
         </>

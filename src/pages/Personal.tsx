@@ -11,7 +11,7 @@ const Personal: React.FC = () => {
       <IonHeader >
         <IonHeader >
           <IonToolbar className='border-color heading-title'>
-            <IonTitle className='light-body-text'>Profile</IonTitle>
+            <IonTitle className='heading-text'>Profile</IonTitle>
             <p className='heading-title' slot='end' >
               <Setting />
             </p>

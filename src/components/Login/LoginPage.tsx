@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react'
+import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react'
 import React, { useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { alarmSharp } from 'ionicons/icons';
@@ -30,6 +30,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     function handleConfirm(userName: string, password: string) {
         console.log('confirmed!!!')
 
+        if (inputUserName.current?.value === "") {
+            setErrors(['Please enter a username.']);
+            return;
+        }
+
+        if (inputPassword.current?.value === "") {
+            setErrors(['Please enter a password.']);
+            return;
+        }
+
+
         if (inputUserName.current?.value !== "" && inputPassword.current?.value !== "") {
             setUser({ ...user, userName: userName, password: password });
             console.log(user);
@@ -44,38 +55,39 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             </IonButton>
             <IonModal ref={modal} trigger='login-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
                 <IonHeader>
-                    <IonToolbar>
+                    <IonToolbar className='border-color'>
                         <IonButtons slot="start">
-                            <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+                            <IonButton className='light-body-text' onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
                         </IonButtons>
-
-                        <IonContent fullscreen>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                <h1>Welcome</h1>
-                            </div>
-                        </IonContent>
-
+                        <IonTitle style={{ textAlign: "center" }}>
+                            <h1 className='light-body-text '>Register</h1>
+                        </IonTitle>
                         <IonButtons slot="end">
-                            <IonButton onClick={() => handleConfirm(inputUserName.current?.value?.toString() || "", inputPassword.current?.value?.toString() || "")}>
+                            <IonButton className='light-body-text' onClick={() => handleConfirm(inputUserName.current?.value?.toString() || "", inputPassword.current?.value?.toString() || "")}>
                                 Confirm
                             </IonButton>
                         </IonButtons>
                     </IonToolbar>
                 </IonHeader>
 
-                <IonContent className='ion-padding'>
-                    <form>
-                        <IonItem>
-                            <IonLabel position="floating">Username</IonLabel>
-                            <IonInput ref={inputUserName} type="text" placeholder='userName'></IonInput>
-                        </IonItem>
-                        <IonItem>
-                            <IonLabel position="floating">Password</IonLabel>
-                            <IonInput ref={inputPassword} type="password" placeholder='password'></IonInput>
-                        </IonItem>
-
-                        <p style={{ color: 'red' }}>{errors}</p>
-                    </form>
+                <IonContent className='background'>
+                    <IonCard>
+                        <form>
+                            <IonItem>
+                                <IonLabel position="floating">Username</IonLabel>
+                                <IonInput ref={inputUserName} type="text" placeholder='userName'></IonInput>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel position="floating">Password</IonLabel>
+                                <IonInput ref={inputPassword} type="password" placeholder='password'></IonInput>
+                            </IonItem>
+                        </form>
+                    </IonCard>
+                    {errors.length ?
+                        <IonCard className='background'>
+                            <p style={{ color: 'red' }}>{errors}</p>
+                        </IonCard> : null
+                    }
                 </IonContent>
             </IonModal>
         </>

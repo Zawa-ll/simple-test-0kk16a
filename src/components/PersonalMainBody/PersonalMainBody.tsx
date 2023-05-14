@@ -25,30 +25,6 @@ const PersonalCenter = ({ name }: Props) => {
                     <h1>Welcome to {name} 's Space</h1>
                 </IonCardContent>
             </IonCard >
-            {/* <IonGrid>
-                <IonRow>
-                    <IonCol>
-                        <IonButton expand="block" routerLink="/Login">
-                            Page 1
-                        </IonButton>
-                    </IonCol>
-                </IonRow>
-                <IonRow>
-                    <IonCol>
-                        <IonButton expand="block" routerLink="/page2">
-                            Page 2
-                        </IonButton>
-                    </IonCol>
-                </IonRow>
-                <IonRow>
-                    <IonCol>
-                        <IonButton expand="block" routerLink="/page3">
-                            Page 3
-                        </IonButton>
-                    </IonCol>
-                </IonRow>
-            </IonGrid> */}
-
 
             <IonGrid>
                 <IonRow>
