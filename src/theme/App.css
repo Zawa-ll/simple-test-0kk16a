@@ -1,0 +1,42 @@
+.primary-blue {
+    color: #5B62FF;
+    --background: #5B62FF;
+}
+
+.primary-red {
+    color: #FF4D4D;
+    --background: #FF4D4D;
+}
+
+.secondary-blue {
+    color: #7278F2;
+    --background: #7278F2;
+}
+
+.background {
+    --background: #000000
+}
+
+.card-background {
+    --background: #232836
+}
+
+.border-color {
+    --background: #2E3142
+}
+
+.heading-title {
+    color: #FFFFFF;
+}
+
+.subheading-title {
+    color: #D9DCE5;
+}
+
+.light-body-text {
+    color: #9DA0AD
+}
+
+.dark-body-text {
+    color: #707484
+}

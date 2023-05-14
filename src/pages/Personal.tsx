@@ -9,17 +9,17 @@ const Personal: React.FC = () => {
   return (
     <IonPage>
       <IonHeader >
-        <IonHeader>
-          <IonToolbar style={{ '--background': 'pink' }} className="bar-background">
-            <IonTitle className="light-body-text" slot='start'>Personal Center</IonTitle>
+        <IonHeader >
+          <IonToolbar className='border-color heading-title'>
+            <IonTitle className='light-body-text'>Profile</IonTitle>
             <p className='heading-title' slot='end' >
               <Setting />
             </p>
           </IonToolbar>
         </IonHeader>
-        <IonToolbar >
+        {/* <IonToolbar >
           <div style={{ paddingTop: '15px', paddingLeft: '15px', display: 'flex', alignItems: 'center' }}>
-            {/* <img className='circle-pic' src={avatarImage} alt='Avatar' /> */}
+            <img className='circle-pic' src={avatarImage} alt='Avatar' />
             <IonTitle style={{ marginLeft: '10px' }}>
               <div style={{ paddingBottom: '50px' }}>
                 <h1>Haydn's Space</h1>
@@ -27,10 +27,10 @@ const Personal: React.FC = () => {
               </div>
             </IonTitle>
           </div>
-        </IonToolbar>
+        </IonToolbar> */}
       </IonHeader>
 
-      <IonContent fullscreen className="bg-style">
+      <IonContent fullscreen className="background">
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Personal</IonTitle>

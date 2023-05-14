@@ -2,6 +2,7 @@ import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonInput, IonIte
 import React, { useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { alarmSharp } from 'ionicons/icons';
+import '../../theme/App.css';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -94,11 +95,11 @@ const RegisterPage = () => {
 
     return (
         <>
-            <IonButton id='register-modal' expand="full" color={'medium'} >
+            <IonButton id='register-modal' expand="full" color={'medium'}>
                 <p>Register</p>
             </IonButton>
             <IonModal ref={modal} trigger='register-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
-                <IonHeader >
+                <IonHeader>
                     <IonToolbar className='bar-background'>
                         <IonButtons slot="start">
                             <IonButton className='light-body-text ' onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
@@ -111,12 +112,8 @@ const RegisterPage = () => {
                         </IonContent>
 
                         <IonButtons slot="end">
-                            <IonButton className='light-body-text ' onClick={() => handleConfirm()}>
-                                Confirm
-                            </IonButton>
-
+                            <IonButton className='light-body-text ' onClick={() => handleConfirm()}>Confirm</IonButton>
                         </IonButtons>
-
                     </IonToolbar>
                 </IonHeader>
 
@@ -125,28 +122,29 @@ const RegisterPage = () => {
                         <form>
                             <IonItem>
                                 <IonLabel className='light-body-text' position='floating'>Username</IonLabel>
-                                <IonInput className='light-body-text' ref={inputUserName} type='text' placeholder='username' />
+                                <IonInput ref={inputUserName} type='text' placeholder='username' />
                             </IonItem>
                             <IonItem>
                                 <IonLabel className='light-body-text' position='floating'>Password</IonLabel>
-                                <IonInput className='light-body-text' ref={inputPassword} type='password' placeholder='password' />
+                                <IonInput ref={inputPassword} type='password' placeholder='password' />
                             </IonItem>
                             <IonItem>
                                 <IonLabel className='light-body-text' position='floating'>Password Confirm</IonLabel>
-                                <IonInput className='light-body-text' ref={inputPasswordConfirm} type='password' placeholder='confirm password' />
+                                <IonInput ref={inputPasswordConfirm} type='password' placeholder='confirm password' />
                             </IonItem>
-                            <IonButton onClick={writeUserData}></IonButton>
+                            {/* <IonButton onClick={writeUserData}></IonButton> */}
                         </form>
+                    </IonCard>
+                    <IonCard className='background'>
                         <IonItem className='background'>
-                            <p style={{ 'color': 'red' }} >{errors.join('\n')}</p>
+                            <p style={{ 'color': 'red' }}>{errors.join('\n')}</p>
                         </IonItem>
-
                     </IonCard>
                 </IonContent>
-
             </IonModal>
         </>
-    )
+    );
+
 }
 
 

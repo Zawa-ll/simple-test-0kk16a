@@ -1,9 +1,10 @@
-import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonItem, IonLabel, IonList } from '@ionic/react';
+import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonRow } from '@ionic/react';
 import { card, colorFill } from 'ionicons/icons';
 import React from 'react'
 import LoginPage from '../Login/LoginPage';
 import RegisterPage from '../Register/RegisterPage';
 import './PersonalMainBody.css'
+import '../../theme/App.css'
 
 
 interface Props {
@@ -16,38 +17,69 @@ const PersonalCenter = ({ name }: Props) => {
     }
     return (
         <div>
-            <IonCard color={'dark'}>
+            <IonCard className='card-background'>
                 <IonCardHeader>
-                    <IonCardTitle style={{ fontSize: '2.5rem' }}>Hi, {name}</IonCardTitle>
-                    <IonCardSubtitle>Welcome</IonCardSubtitle>
+                    <IonCardTitle className='heading-title' style={{ fontSize: '2.5rem' }}>Hi, {name}</IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent>
+                <IonCardContent className='subheading-title'>
                     <h1>Welcome to {name} 's Space</h1>
                 </IonCardContent>
             </IonCard >
+            {/* <IonGrid>
+                <IonRow>
+                    <IonCol>
+                        <IonButton expand="block" routerLink="/Login">
+                            Page 1
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
+                <IonRow>
+                    <IonCol>
+                        <IonButton expand="block" routerLink="/page2">
+                            Page 2
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
+                <IonRow>
+                    <IonCol>
+                        <IonButton expand="block" routerLink="/page3">
+                            Page 3
+                        </IonButton>
+                    </IonCol>
+                </IonRow>
+            </IonGrid> */}
 
-            <IonList className="lst-color">
+
+            <IonGrid>
+                <IonRow>
+                    <IonCol>
+                        <LoginPage onLogin={handleLogin} />
+                    </IonCol>
+                </IonRow>
+                <IonRow>
+                    <IonCol>
+                        <RegisterPage />
+                    </IonCol>
+                </IonRow>
+            </IonGrid>
+
+
+
+
+
+            {/* <IonList >
                 <LoginPage onLogin={handleLogin} />
-                {/* <IonButton expand="full" color={'medium'} >
+                <IonButton expand="full" color={'medium'} >
                     <p>Login In</p>
-                </IonButton> */}
+                </IonButton>
                 <RegisterPage />
                 <IonButton expand="full" color={'medium'}>
                     <p>Log Out</p>
                 </IonButton>
                 <IonButton expand='full' color={'medium'}>Setting</IonButton>
 
-            </IonList>
+            </IonList> */}
 
-            {/* <IonCard>
-            <IonCardHeader>
-                <IonCardTitle>Card Title</IonCardTitle>
-                <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-            </IonCardHeader>
-            <IonCardContent>
-                <h1>Welcome to {name} 's Space</h1>        
-            </IonCardContent>
-        </IonCard> */}
         </div >
     )
 }

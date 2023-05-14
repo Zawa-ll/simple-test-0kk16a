@@ -35,7 +35,7 @@ const Tab2: React.FC = () => {
       });
     } else {
       // requestLEScan function is not available
-      console.log('Not available on web browser');
+      console.log('Not available on web browser!');
     }
 
 
