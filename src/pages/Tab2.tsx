@@ -1,7 +1,7 @@
 import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { BleClient } from '@capacitor-community/bluetooth-le';
 import { bluetooth } from 'ionicons/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../theme/App.css'
 
 
@@ -23,9 +23,6 @@ const firebaseConfig = {
   appId: "1:730317868996:web:68359d31c1ab5a9a369e91",
   measurementId: "G-158MT6TRS3"
 };
-
-
-
 
 
 const Tab2: React.FC = () => {
@@ -53,12 +50,24 @@ const Tab2: React.FC = () => {
   const [isScanning, setIsScanning] = useState<boolean>(false);
   const [isScanningUUID, setIsScanningUUID] = useState<boolean>(false);
   const [devices, setDevices] = useState<string[]>([]);
+  const [singleUUID, setSingleUUID] = useState("");
   const [devicesUUID, setDevicesUUID] = useState<string[]>([]);
+  const [singleDeviceName, setSingleDeviceName] = useState("");
 
   const handleInitialize = async () => {
     await BleClient.initialize();
     console.log('Bluetooth initialized');
   };
+
+  // useEffect(() => {
+  //   setDevicesUUID([...devicesUUID, singleUUID]);
+  //   console.log('devicesUUID changed:', devicesUUID)
+  // }, [singleUUID]);
+
+  useEffect(() => {
+    setDevicesUUID(prevDevicesUUID => [...prevDevicesUUID, singleUUID]);
+  }, [singleUUID]);
+
 
   const handleClickUUID = async () => {
     setIsScanningUUID(!isScanningUUID);
@@ -66,34 +75,46 @@ const Tab2: React.FC = () => {
       await BleClient.requestLEScan({}, scanResult => {
         console.log('Found device:', scanResult);
         if (scanResult.device !== undefined && scanResult.device.deviceId !== undefined) {
-          // const uuids = scanResult.device..map(uuid => uuid.toUpperCase()); // convert UUIDs to upper case for consistency
-          setDevicesUUID([...devicesUUID, scanResult.device.deviceId]); // add unique UUIDs to the array
+          setSingleUUID(scanResult.device.deviceId);
+          // setDevicesUUID([...devicesUUID, scanResult.device.deviceId]);
         }
       });
       console.log('Scanning started');
+
+      // Set isScanningUUID to false after 5 seconds
+      setTimeout(() => {
+        setIsScanningUUID(false);
+        console.log('Scanning stopped after 5 seconds');
+        BleClient.stopLEScan();
+      }, 3000);
     } else {
+      setIsScanningUUID(false);
       await BleClient.stopLEScan();
       console.log('Scanning stopped');
     }
   };
 
 
-  const handleClickUUID2 = async () => {
-    setIsScanningUUID(!isScanningUUID);
-    if (!isScanningUUID) {
-      await BleClient.requestLEScan({}, scanResult => {
-        console.log('Found device:', scanResult);
-        if (scanResult.device !== undefined && scanResult.device.uuids !== undefined) {
-          setDevicesUUID([...devicesUUID, ...scanResult.device.uuids]);
-        }
-      });
-      console.log('Scanning started');
 
-    } else {
-      await BleClient.stopLEScan();
-      console.log('Scanning stopped');
-    }
-  };
+  // const handleClickUUID2 = async () => {
+  //   setIsScanningUUID(!isScanningUUID);
+  //   if (!isScanningUUID) {
+  //     await BleClient.requestLEScan({}, scanResult => {
+  //       console.log('Found device:', scanResult);
+  //       if (scanResult.device !== undefined && scanResult.device.uuids !== undefined) {
+  //         setDevicesUUID([...devicesUUID, ...scanResult.device.uuids]);
+  //       }
+  //     });
+  //     console.log('Scanning started');
+
+  //   } else {
+  //     await BleClient.stopLEScan();
+  //     console.log('Scanning stopped');
+  //   }
+  // };
+  useEffect(() => {
+    setDevices(prevDevices => [...prevDevices, singleDeviceName]);
+  }, [singleDeviceName]);
 
 
   const handleClick = async () => {
@@ -102,15 +123,25 @@ const Tab2: React.FC = () => {
       await BleClient.requestLEScan({}, scanResult => {
         console.log('Found device:', scanResult);
         if (scanResult.device.name) {
-          setDevices([...devices, scanResult.device.name]);
+          // setDevices([...devices, scanResult.device.name]);
+          setSingleDeviceName(scanResult.device.name);
         }
       });
       console.log('Scanning started');
+
+      // Set isScanning to false after 5 seconds
+      setTimeout(() => {
+        setIsScanning(false);
+        console.log('Scanning stopped after 5 seconds');
+        BleClient.stopLEScan();
+      }, 5000);
     } else {
+      setIsScanning(false);
       await BleClient.stopLEScan();
       console.log('Scanning stopped');
     }
   };
+
 
   return (
     <IonPage>

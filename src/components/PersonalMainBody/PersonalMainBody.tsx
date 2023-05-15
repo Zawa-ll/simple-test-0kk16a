@@ -22,7 +22,7 @@ const PersonalCenter = ({ name }: Props) => {
                     <IonCardTitle className='heading-title' style={{ fontSize: '2.5rem' }}>Hi, {name}</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className='subheading-title'>
-                    <h1>Welcome to {name} 's Space1</h1>
+                    <h1>Welcome to {name} 's Space5</h1>
                 </IonCardContent>
             </IonCard >
 
