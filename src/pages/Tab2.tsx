@@ -65,13 +65,12 @@ const Tab2: React.FC = () => {
     if (!isScanningUUID) {
       await BleClient.requestLEScan({}, scanResult => {
         console.log('Found device:', scanResult);
-        if (scanResult.device !== undefined && scanResult.device.uuids !== undefined) {
-          const uuids = scanResult.device.uuids.map(uuid => uuid.toUpperCase()); // convert UUIDs to upper case for consistency
-          setDevicesUUID([...devicesUUID, ...uuids]); // add unique UUIDs to the array
+        if (scanResult.device !== undefined && scanResult.device.deviceId !== undefined) {
+          // const uuids = scanResult.device..map(uuid => uuid.toUpperCase()); // convert UUIDs to upper case for consistency
+          setDevicesUUID([...devicesUUID, scanResult.device.deviceId]); // add unique UUIDs to the array
         }
       });
       console.log('Scanning started');
-
     } else {
       await BleClient.stopLEScan();
       console.log('Scanning stopped');
