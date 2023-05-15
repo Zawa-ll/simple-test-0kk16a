@@ -1,5 +1,5 @@
 import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
 import { alarmSharp } from 'ionicons/icons';
 import '../../theme/App.css';
@@ -22,6 +22,7 @@ const firebaseConfig = {
     measurementId: "G-158MT6TRS3"
 };
 
+
 interface User {
     userName: string,
     password: string,
@@ -33,12 +34,12 @@ const RegisterPage = () => {
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // const writeUserData = () => {
-    //     console.log(database);
-    //     set(ref(database, 'users/stringTesting'), {
-    //         message: 'testing0',
-    //     });
-    // }
+    const writeUserDataMessage = () => {
+        console.log(database);
+        set(ref(database, 'users/stringTesting'), {
+            message: 'testing333',
+        });
+    }
     const writeUserData = () => {
         console.log(database);
         set(ref(database, 'users/newUsers'), {
@@ -62,6 +63,10 @@ const RegisterPage = () => {
         }
     }
 
+    useEffect(() => {
+        writeUserData();
+    }, [users])
+
     function handleConfirm() {
         if (inputUserName.current?.value === "") {
             setErrors(['Please enter a username.']);
@@ -77,11 +82,16 @@ const RegisterPage = () => {
             setErrors(['Passwords do not match.']);
             return;
         }
-        setUser({ ...user, userName: String(inputUserName.current?.value), password: String(inputPassword.current?.value) });
-        setUsers([...users, user]);
-        writeUserData();
 
-        console.log(user);
+        const newUser = {
+            userName: String(inputUserName.current?.value),
+            password: String(inputPassword.current?.value),
+        };
+
+        setUser(newUser);
+        setUsers([...users, newUser]);
+
+        console.log(newUser);
         console.log(users);
 
         // Clear inputs
@@ -138,7 +148,7 @@ const RegisterPage = () => {
                             </IonItem>
                         </IonCard> : null
                     }
-
+                    <IonButton onClick={writeUserDataMessage}>testAddMessage</IonButton>
                 </IonContent>
             </IonModal>
         </>
