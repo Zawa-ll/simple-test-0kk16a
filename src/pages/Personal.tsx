@@ -31,11 +31,6 @@ const Personal: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen className="background">
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Personal</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <PersonalCenter name='Haydn' />
       </IonContent>
     </IonPage >

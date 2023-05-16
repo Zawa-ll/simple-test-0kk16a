@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonContent, IonHeader, IonIcon, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { BleClient } from '@capacitor-community/bluetooth-le';
 import { bluetooth } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
@@ -169,18 +169,21 @@ const Tab2: React.FC = () => {
         <IonButton className='primary-blue btn-text' onClick={writeUserData}>test WritingUserData</IonButton>
         <IonButton className='primary-blue btn-text' onClick={writeUserDataUUID}>test WritingUserDataUUID</IonButton>
         {devices.length > 0 && (
-          <IonCard>
-            <IonList>
-              {devices.map((device, index) => (
-                <IonItem key={index}>{device}</IonItem>
-              ))}
-            </IonList>
+          <IonCard >
+            <IonCardContent className="card-background">
+              <IonList className='card-background'>
+                {devices.map((device, index) => (
+                  <IonItem key={index}>{device}</IonItem>
+                ))}
+              </IonList>
+            </IonCardContent>
           </IonCard>
         )}
 
+
         {(devicesUUID !== undefined) && (
-          <IonCard>
-            <IonList>
+          <IonCard className='background'>
+            <IonList className='background'>
               {devicesUUID.map((device, index) => (
                 <IonItem key={index}>{device}</IonItem>
               ))}

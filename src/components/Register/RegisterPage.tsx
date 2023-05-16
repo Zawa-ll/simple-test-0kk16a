@@ -6,7 +6,7 @@ import '../../theme/App.css';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from 'firebase/database'
+import { get, getDatabase, ref, set } from 'firebase/database'
 
 
 // Your web app's Firebase configuration
@@ -22,6 +22,10 @@ const firebaseConfig = {
     measurementId: "G-158MT6TRS3"
 };
 
+//firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 
 interface User {
     userName: string,
@@ -29,10 +33,6 @@ interface User {
 }
 
 const RegisterPage = () => {
-
-    //firebase
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
 
     const writeUserDataMessage = () => {
         console.log(database);
@@ -64,7 +64,9 @@ const RegisterPage = () => {
     }
 
     useEffect(() => {
-        writeUserData();
+        if (users.length !== 0) {
+            writeUserData();
+        }
     }, [users])
 
     function handleConfirm() {
@@ -103,9 +105,22 @@ const RegisterPage = () => {
         modal.current?.dismiss();
     }
 
+    const getUserLog = async () => {
+        console.log('initialized!')
+        const userLogRef = ref(database, 'users/newUsers/users')
+
+        await get(userLogRef).then((snapshot) => {
+            const userLog = snapshot.val();
+            console.log('successfully get User log!');
+            setUsers(userLog);
+        }).catch((error) => {
+            console.error(error);
+        })
+    }
+
     return (
         <>
-            <IonButton className='primary-blue' id='register-modal' expand="full">
+            <IonButton onClick={getUserLog} className='primary-blue' id='register-modal' expand="full">
                 <p className='btn-text'>Register</p>
             </IonButton>
             <IonModal ref={modal} trigger='register-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>

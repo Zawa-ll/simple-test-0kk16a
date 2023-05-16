@@ -1,12 +1,12 @@
 import { IonButton, IonButtons, IonCard, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { OverlayEventDetail } from '@ionic/core/components';
-import { alarmSharp } from 'ionicons/icons';
 import '../../theme/App.css'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { get, getDatabase, ref, set } from 'firebase/database'
+// import { app } from '../Register/RegisterPage';
 
 
 // Your web app's Firebase configuration

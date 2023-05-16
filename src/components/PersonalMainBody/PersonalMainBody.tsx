@@ -1,5 +1,4 @@
 import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonItem, IonLabel, IonList, IonRow } from '@ionic/react';
-import { card, colorFill } from 'ionicons/icons';
 import React from 'react'
 import LoginPage from '../Login/LoginPage';
 import RegisterPage from '../Register/RegisterPage';
@@ -22,7 +21,7 @@ const PersonalCenter = ({ name }: Props) => {
                     <IonCardTitle className='heading-title' style={{ fontSize: '2.5rem' }}>Hi, {name}</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className='subheading-title'>
-                    <h1>Welcome to {name} 's Space5</h1>
+                    <h1>Welcome to {name} 's Space!</h1>
                 </IonCardContent>
             </IonCard >
 
