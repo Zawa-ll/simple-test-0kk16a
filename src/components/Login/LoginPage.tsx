@@ -24,7 +24,7 @@ const firebaseConfig = {
 
 
 interface User {
-    userName: string;
+    email: string;
     password: string;
 }
 
@@ -40,13 +40,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
 
     const modal = useRef<HTMLIonModalElement>(null);
-    const inputUserName = useRef<HTMLIonInputElement>(null);
+    const inputEmail = useRef<HTMLIonInputElement>(null);
     const inputPassword = useRef<HTMLIonInputElement>(null);
 
     const [user, setUser] = useState<User>({} as User);
     const [errors, setErrors] = useState<string[]>([] as string[]);
     const [userLog, setUserLog] = useState<User[]>([]);
     const [loginFeedback, setLoginFeedBack] = useState('');
+    const [confirmClicked, setConfirmClicked] = useState(false);
 
     // const userRef = database.ref('users/stringTesting');
 
@@ -78,12 +79,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         checkExist()
     }, [user]);
 
-    async function handleConfirm(userName: string, password: string) {
+    async function handleConfirm(email: string, password: string) {
+        setConfirmClicked(true);
         console.log('confirmed clicked!!!')
         await getUserLog();
 
-        if (inputUserName.current?.value === "") {
-            setErrors(['Please enter a username.']);
+        if (inputEmail.current?.value === "") {
+            setErrors(['Please enter a email.']);
             return;
         }
 
@@ -92,37 +94,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             return;
         }
 
-        if (inputUserName.current?.value !== "" && inputPassword.current?.value !== "") {
-            const newUser = { userName: userName, password: password };
+        if (inputEmail.current?.value !== "" && inputPassword.current?.value !== "") {
+            const newUser = { email: email, password: password };
             setUser(newUser);
 
             checkExist();
         }
-    }
-
-
-    async function handleConfirm2(userName: string, password: string) {
-        console.log('confirmed clicked!!!')
-
-        if (inputUserName.current?.value === "") {
-            setErrors(['Please enter a username.']);
-            return;
-        }
-
-        if (inputPassword.current?.value === "") {
-            setErrors(['Please enter a password.']);
-            return;
-        }
-
-        if (inputUserName.current?.value !== "" && inputPassword.current?.value !== "") {
-            // const newUser = { userName: userName, password: password };
-            await setUser({ ...user, userName: userName, password: password });
-            // .then(() => { });
-
-            checkExist();
-            // setUser({ ...user, userName: userName, password: password });
-        }
-
     }
 
     const getUserLog = async () => {
@@ -141,10 +118,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         await getUserLog();
         console.log('checkExist clicked');
         console.log(userLog);
-        let found = false;
+        let found = null;
         if (userLog) {
             userLog.map(log => {
-                if (log.userName === user.userName && log.password === user.password) {
+                if (log.email === user.email && log.password === user.password) {
                     found = true;
                     console.log('find user!');
                     setLoginFeedBack('login Successfully');
@@ -156,14 +133,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         if (!found) {
             console.log(user);
             console.log('cannot found');
-            setLoginFeedBack('some information is error!');
+            setLoginFeedBack('Some information is in error!');
         }
     }
 
 
     return (
         <>
-            <IonButton className='primary-blue' id='login-modal' expand="full"  >
+            <IonButton onClick={() => { setConfirmClicked(false); setErrors([]); }} className='primary-blue' id='login-modal' expand="full"  >
                 <p className='btn-text'>Login</p>
             </IonButton>
             <IonModal ref={modal} trigger='login-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
@@ -176,7 +153,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                             <h1 className='light-body-text '>Login</h1>
                         </IonTitle>
                         <IonButtons slot="end">
-                            <IonButton className='light-body-text' onClick={() => handleConfirm(inputUserName.current?.value?.toString() || "", inputPassword.current?.value?.toString() || "")}>
+                            <IonButton className='light-body-text' onClick={() => handleConfirm(inputEmail.current?.value?.toString() || "", inputPassword.current?.value?.toString() || "")}>
                                 Confirm
                             </IonButton>
                         </IonButtons>
@@ -187,8 +164,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                     <IonCard>
                         <form>
                             <IonItem>
-                                <IonLabel position="floating">Username</IonLabel>
-                                <IonInput ref={inputUserName} type="text" placeholder='userName'></IonInput>
+                                <IonLabel position="floating">Email</IonLabel>
+                                <IonInput ref={inputEmail} type="text" placeholder='email'></IonInput>
                             </IonItem>
                             <IonItem>
                                 <IonLabel position="floating">Password</IonLabel>
@@ -202,10 +179,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         </IonCard> : null
                     }
 
-                    <IonButton onClick={getUserDataMessage}>testGetMessage</IonButton>
-                    <IonButton onClick={getUserLog}>testGetUserLog</IonButton>
-                    <IonButton onClick={checkExist}>checkExist</IonButton>
-                    <IonTitle color={'warning'}>{loginFeedback}</IonTitle>
+                    {/* <IonButton onClick={getUserDataMessage}>testGetMessage</IonButton> */}
+                    {/* <IonButton onClick={getUserLog}>testGetUserLog</IonButton> */}
+                    {/* <IonButton onClick={checkExist}>checkExist</IonButton> */}
+                    {confirmClicked && <IonTitle color={'warning'}>{loginFeedback}</IonTitle>}
                 </IonContent>
 
             </IonModal>

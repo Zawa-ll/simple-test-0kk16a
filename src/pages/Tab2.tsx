@@ -170,20 +170,18 @@ const Tab2: React.FC = () => {
         <IonButton className='primary-blue btn-text' onClick={writeUserDataUUID}>test WritingUserDataUUID</IonButton>
         {devices.length > 0 && (
           <IonCard >
-            <IonCardContent className="card-background">
-              <IonList className='card-background'>
-                {devices.map((device, index) => (
-                  <IonItem key={index}>{device}</IonItem>
-                ))}
-              </IonList>
-            </IonCardContent>
+            <IonList >
+              {devices.map((device, index) => (
+                <IonItem key={index}>{device}</IonItem>
+              ))}
+            </IonList>
           </IonCard>
         )}
 
 
         {(devicesUUID !== undefined) && (
-          <IonCard className='background'>
-            <IonList className='background'>
+          <IonCard >
+            <IonList >
               {devicesUUID.map((device, index) => (
                 <IonItem key={index}>{device}</IonItem>
               ))}

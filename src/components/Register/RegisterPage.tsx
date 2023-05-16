@@ -28,7 +28,7 @@ const database = getDatabase(app);
 
 
 interface User {
-    userName: string,
+    email: string,
     password: string,
 }
 
@@ -49,7 +49,7 @@ const RegisterPage = () => {
 
 
     const modal = useRef<HTMLIonModalElement>(null);
-    const inputUserName = useRef<HTMLIonInputElement>(null);
+    const inputEmail = useRef<HTMLIonInputElement>(null);
     const inputPassword = useRef<HTMLIonInputElement>(null);
     const inputPasswordConfirm = useRef<HTMLIonInputElement>(null);
 
@@ -64,14 +64,14 @@ const RegisterPage = () => {
     }
 
     useEffect(() => {
-        if (users.length !== 0) {
+        if (users?.length !== 0) {
             writeUserData();
         }
     }, [users])
 
     function handleConfirm() {
-        if (inputUserName.current?.value === "") {
-            setErrors(['Please enter a username.']);
+        if (inputEmail.current?.value === "") {
+            setErrors(['Please enter a email.']);
             return;
         }
 
@@ -86,18 +86,23 @@ const RegisterPage = () => {
         }
 
         const newUser = {
-            userName: String(inputUserName.current?.value),
+            email: String(inputEmail.current?.value),
             password: String(inputPassword.current?.value),
         };
 
         setUser(newUser);
-        setUsers([...users, newUser]);
+        if (users?.length) {
+            setUsers([...users, newUser]);
+        } else {
+            setUsers([newUser]);
+        }
+
 
         console.log(newUser);
         console.log(users);
 
         // Clear inputs
-        inputUserName.current!.value = '';
+        inputEmail.current!.value = '';
         inputPassword.current!.value = '';
         inputPasswordConfirm.current!.value = '';
 
@@ -142,8 +147,8 @@ const RegisterPage = () => {
                     <IonCard className='card-background'>
                         <form>
                             <IonItem>
-                                <IonLabel className='light-body-text' position='floating'>Username</IonLabel>
-                                <IonInput ref={inputUserName} type='text' placeholder='username' />
+                                <IonLabel className='light-body-text' position='floating'>Email</IonLabel>
+                                <IonInput ref={inputEmail} type='text' placeholder='username' />
                             </IonItem>
                             <IonItem>
                                 <IonLabel className='light-body-text' position='floating'>Password</IonLabel>
@@ -163,7 +168,7 @@ const RegisterPage = () => {
                             </IonItem>
                         </IonCard> : null
                     }
-                    <IonButton onClick={writeUserDataMessage}>testAddMessage</IonButton>
+                    {/* <IonButton onClick={writeUserDataMessage}>testAddMessage</IonButton> */}
                 </IonContent>
             </IonModal>
         </>
