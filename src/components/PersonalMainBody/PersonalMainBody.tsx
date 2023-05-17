@@ -4,6 +4,8 @@ import LoginPage from '../Login/LoginPage';
 import RegisterPage from '../Register/RegisterPage';
 import './PersonalMainBody.css'
 import '../../theme/App.css'
+import RegisterPageCopy from '../Register/RegisterPage copy';
+import LoginPageCopy from '../Login/LoginPage copy';
 
 
 interface Props {
@@ -28,12 +30,13 @@ const PersonalCenter = ({ name }: Props) => {
             <IonGrid>
                 <IonRow>
                     <IonCol>
-                        <LoginPage onLogin={handleLogin} />
+                        {/* <LoginPage onLogin={handleLogin} /> */}
+                        <LoginPageCopy />
                     </IonCol>
                 </IonRow>
                 <IonRow>
                     <IonCol>
-                        <RegisterPage />
+                        <RegisterPageCopy />
                     </IonCol>
                 </IonRow>
             </IonGrid>
