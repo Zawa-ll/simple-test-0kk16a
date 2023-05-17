@@ -135,7 +135,7 @@ const LoginPageCopy: React.FC = () => {
     return (
         <>
             <IonButton className='primary-blue' id='login-modal' expand="full"  >
-                <p className='btn-text'>Login33</p>
+                <p className='btn-text'>Login</p>
             </IonButton>
             <IonModal ref={modal} trigger='login-modal' onWillDismiss={(ev) => onWillDismiss(ev)}>
                 <IonHeader>
