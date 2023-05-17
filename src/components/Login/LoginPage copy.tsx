@@ -89,9 +89,13 @@ const LoginPageCopy: React.FC = () => {
         console.log(email, password);
     }
 
-    const handleEmailChange = (e: any) => {
+    const handleEmailChange0 = (e: any) => {
         setEmail(e.target.value);
     }
+
+    const handleEmailChange = (e: any) => {
+        setEmail(e.target.value.toString());
+    };
 
     // useEffect(() => {
     //     if (inputEmail.current) {
@@ -106,9 +110,26 @@ const LoginPageCopy: React.FC = () => {
     // }, [inputPassword, password]);
 
 
-    const handlePasswordChange = (e: any) => {
+    const handlePasswordChange0 = (e: any) => {
         setPassword(e.target.value);
     }
+
+    const handlePasswordChange = (e: any) => {
+        setPassword(e.target.value.toString());
+    };
+
+    useEffect(() => {
+        if (inputEmail.current) {
+            setEmail(String(inputEmail.current.value));
+        }
+    }, [inputEmail]);
+
+
+    useEffect(() => {
+        if (inputPassword.current) {
+            setPassword(String(inputPassword.current.value));
+        }
+    }, [inputPassword]);
 
 
     return (
